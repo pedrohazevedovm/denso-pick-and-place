@@ -1,12 +1,13 @@
 # Import control over the gripper
 from rria_api_denso import (GRIPPER_ETHERNET_IP, GRIPPER_SOCKET_PORT,
-                            DensoRobotAPI, GripperCommSocket, GripperResponses)
+                            DensoRobotAPI, GripperCommSocket, GripperResponses, RobotJointCommand, RobotCartesianCommand)
 # Import abstract robot class
-from robot_api.abstract_robot_api import AbstractRobot
+from robot_api.denso_abstract import AbstractDenso
+from bank_movements import get_pose
 
 
 # Implement real Denso robot from abstract robot
-class DensoRobotInterface(AbstractRobot):
+class DensoControl(AbstractDenso):
     def __init__(self, workspace_name, control_name, options):
         self.__denso_api = DensoRobotAPI(workspace_name, control_name, options) # Instantiate the robot
         self.__gripper = GripperCommSocket(GRIPPER_ETHERNET_IP, GRIPPER_SOCKET_PORT) # Instantiate the gripper
@@ -27,7 +28,7 @@ class DensoRobotInterface(AbstractRobot):
             print(e)
             return False
 
-    # Delete CAO workspace and controller and disconnect the robot
+    # Delete CAO workspace and controller and disconnect the gripper and the robot
     def disconnect(self) -> bool:
         try:
             if self.__gripper.is_connect():
@@ -55,7 +56,7 @@ class DensoRobotInterface(AbstractRobot):
             return False
 
     # Move robot joints according to command
-    def move_joints(self, command) -> bool:
+    def move_joints(self, command : RobotJointCommand) -> bool:
         try:
             return self.__denso_api.move_joints(command)
         except Exception as e:
@@ -63,11 +64,41 @@ class DensoRobotInterface(AbstractRobot):
             return False
 
     # Move robot in cartesian manner according to command
-    def move_cartesian(self, command) -> bool:
+    def move_cartesian(self, command : RobotCartesianCommand) -> bool:
         try:
             return self.__denso_api.move_cartesian(command)
         except Exception as e:
             print(e)
+            return False
+    
+    # Move robot to a preset joints pose
+    def move_preset_joints(self, pose : str) -> bool:
+        if self.is_connected() and self.motor_enabled():
+            joints, _ = get_pose(pose, 0)
+            if joints != None:
+                command = RobotJointCommand.from_list(joints)
+                self.move_joints(command)
+                return True
+        elif not self.motor_enabled():
+            print('\nRobot motor is off')
+            return False
+        elif not self.is_connected():
+            print('\nRobot not connected')
+            return False
+        
+    # Move robot to a preset cartesian pose
+    def move_preset_cartesian(self, pose : str) -> bool:
+        if self.is_connected() and self.motor_enabled():
+            coordinates, _ = get_pose(pose, 1)
+            if coordinates != None:
+                command = RobotCartesianCommand.from_list(coordinates)
+                self.move_cartesian(command)
+                return True
+        elif not self.motor_enabled():
+            print('\nRobot motor is off')
+            return False
+        elif not self.is_connected():
+            print('\nRobot not connected')
             return False
 
     # Move end effector forward or backward according to step size
