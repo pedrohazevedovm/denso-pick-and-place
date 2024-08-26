@@ -1,18 +1,19 @@
 # Bank of movements for Denso robot
+# 'pose_name': ([joints], [cartesian coordinates, fig], 'message')
 BANK_MOVEMENT = {
-    'zero': ([], [], "Robot moved to zero position"),
-    'home': ([], [], "Robot moved to 'home' position"),
+    'zero': ([-2.0043869018554688, -10.526000976562498, 13.123616169880819, -1.4671897888183594, 10.668893169311353, 12.053155517578125], [-28.03806422885026, 0.6493371736872753, 913.9265658588957, 2.7517775579488717, 12.98226714216524, 8.888473337360756, 2], "Robot moved to zero position"),
+    'home': ([-43.64744567871094, 3.1574981689453123, 79.31458802552554, -1.4673271179199219, 10.668893169311353, 12.053100585937498], [242.2335403027783, -231.5171414803211, 633.992664097664, 106.59883151753233, 78.95410339296052, 62.3883282062788, 5], "Robot moved to 'home' position"),
 
-    'pre_grasp': ([], [], "Robot moved to 'pre grasp' position"),
+    'pre_grasp': ([-35.08246994018555, 40.99844970703125, 97.65392406566724, -0.19390869140625, 43.663802992673716, -31.464733886718747], [275.7576569496517, -193.87960048913985, 278.8783561301584, 178.8998151205814, -2.042504682035298, 176.54490790383025, 5], "Robot moved to 'pre grasp' position"),
 
-    'grasp': ([], [], "Robot moved to grasp position"),
+    'grasp': ([-35.08246994018555, 67.40249633789062, 89.51632296358859, -0.3123207092285156, 25.39735267995271, -31.32295532226562], [275.7585243217863, -193.8802469307588, 140.44131238304044, 178.89991085542815, -2.042394380087682, 176.54493972353538, 5], "Robot moved to grasp position"),
 
-    'flash': ([], [], "Robot is ready to take a picture")
+    'flash': ([66.8356704711914, -17.201431274414062, 105.43612460116367, -0.1940460205078125, 44.604931951412226, 0.9958007812499999], [91.38293001673914, 213.1564690111453, 553.9913807492431, 179.21138597307268, 47.15555508685782, -114.42564239609969, 5], "Robot is ready to take a picture")
 }
 
 
 """
-Return list of joint positions (if indx == 0) or list of cartesian coordinates (if indx == 1) from chosen bm = BANK_MOVEMENT (1 or 2)
+Return list of joint positions (if indx == 0) or list of cartesian coordinates and figure (if indx == 1)
 and a message for the test robot
 """
 def get_pose(key : str, indx : int):
