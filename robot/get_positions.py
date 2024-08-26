@@ -1,5 +1,5 @@
 from robot_api.denso_abstract import AbstractDenso
-from manipulator_robot import ManipulatorRobot
+from manipulator_robot import DensoControl
 
 def get_positions(robot: AbstractDenso):
     status = False
@@ -17,9 +17,9 @@ def get_positions(robot: AbstractDenso):
 
 if __name__ == '__main__':
     tag = 'blah blah'
-    robot = ManipulatorRobot(tag, 1)
-    robot.take_control()
+    robot = DensoControl(f"celular_{tag}", f"robot_{tag}", "Server=192.168.160.226")
+    robot.connect()
 
-    get_positions(AbstractDenso)
+    get_positions(robot)
 
-    robot.give_control()
+    robot.disconnect()
