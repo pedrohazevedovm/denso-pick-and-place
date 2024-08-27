@@ -1,6 +1,6 @@
 from rria_api_denso import GripperResponses
-from robot_api.denso_robot import DensoControl
-from robot_api.denso_test import DensoTest
+from robot.robot_api.denso_robot import DensoControl
+from robot.robot_api.denso_test import DensoTest
 
 # Device manipulator robot class
 class ManipulatorRobot:
@@ -21,8 +21,6 @@ class ManipulatorRobot:
         self.__gripper_connected = False
         self.__ready_to_go = False
 
-        self.MIN_DISTANCE_TOLERANCE_MM = 20
-
     # Setup CAO workspace and controller and connect the robot
     def __start_connection(self):
         self.__api.connect()
@@ -38,10 +36,9 @@ class ManipulatorRobot:
             self.__is_connected = self.__start_connection() # Connect robot
             self.__motor_enabled = self.__api.motor_on() # Turn on motor
             speed, acc, decel = self.__speed, self.__acc, self.__decel # Setup arm speed
+            self.__api.set_arm_speed(speed, acc, decel)
             self.__gripper_connected = self.connect_gripper() # Connect gripper
-            # Robot is ready to operate
-            self.__ready_to_go = self.__is_connected and self.__motor_enabled and self.__api.set_arm_speed(speed, acc, decel) and self.__gripper_connected
-            self.take_control()
+            self.__ready_to_go = True # Robot is ready to operate
         else:
             print('\nRobot is ready to operate')
 
@@ -51,8 +48,7 @@ class ManipulatorRobot:
             self.__motor_enabled = not self.__api.motor_off() # Turn off motor
             self.__gripper_connected = not self.disconnect_gripper() # Disconnect gripper
             self.__is_connected = not self.__stop_connection() # Disconnect robot
-            self.__ready_to_go = self.__is_connected and self.__motor_enabled and self.__gripper_connected # Robot is ready to be dismissed
-            self.give_control()
+            self.__ready_to_go = False # Robot is ready to be dismissed
         else:
             print('\nRobot is ready to be dismissed')
     

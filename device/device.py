@@ -5,7 +5,7 @@ from time import sleep
 # Dict with coordinates of camera button to take picture
 models_specification = {'samsung_a34': {'x': 365, 'y': 1358, 'width': 78.1},
                         'samsung_a04e': {'x': 365, 'y': 1358, 'width': 75.9},
-                        'moto_g32': {'x': 540, 'y': 2090, 'width': 73.84},
+                        'moto_g32': {'x': 540, 'y': 2090, 'width': 76.4},
                         'virutal_device': {'x': 365, 'y': 1358, 'width': 78.1}}
 
 

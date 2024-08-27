@@ -4,8 +4,8 @@ from time import sleep
 from rria_api_denso import (GripperResponses, RobotCartesianCommand,
                             RobotJointCommand)
 # Import abstract robot class
-from robot_api.denso_abstract import AbstractDenso
-from bank_movements import get_pose
+from robot.robot_api.denso_abstract import AbstractDenso
+from robot.bank_movements import get_pose
 
 # Implement test Denso robot from abstract robot
 class DensoTest(AbstractDenso):
@@ -314,8 +314,3 @@ class DensoTest(AbstractDenso):
         else:
             print('\nGripper not connected')
             return False
-        
-
-# Tests
-#myRobot = TestDenso()
-

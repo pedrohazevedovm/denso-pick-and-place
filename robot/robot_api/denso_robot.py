@@ -2,8 +2,8 @@
 from rria_api_denso import (GRIPPER_ETHERNET_IP, GRIPPER_SOCKET_PORT,
                             DensoRobotAPI, GripperCommSocket, GripperResponses, RobotJointCommand, RobotCartesianCommand)
 # Import abstract robot class
-from robot_api.denso_abstract import AbstractDenso
-from bank_movements import get_pose
+from robot.robot_api.denso_abstract import AbstractDenso
+from robot.bank_movements import get_pose
 
 
 # Implement real Denso robot from abstract robot
