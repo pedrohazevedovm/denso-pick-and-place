@@ -1,12 +1,12 @@
-from manipulator_robot import ManipulatorRobot
+from robot.manipulator_robot import ManipulatorRobot
 from device.device import Device
 from time import sleep
 
 # Test script for pick and place
 if __name__ == '__main__':
-    tag = 'blah blah'
+    tag = 'bla'
 
-    robot = ManipulatorRobot(tag)#, 1)
+    robot = ManipulatorRobot(tag)  # , 1)
     device = Device('192.168.158.230:38827', 'moto_g32')
     device.connect()
 
@@ -16,7 +16,7 @@ if __name__ == '__main__':
     robot.open_gripper_full()  # Open gripper
     robot.joint_move('pre_grasp')  # Move close to the device
     robot.cartesian_move('grasp')  # Get ready to grasp the device
-    robot.close_to_grasp()  # Close the gripper to grasp the device
+    robot.close_to_grasp(device.width)  # Close the gripper to grasp the device
     robot.cartesian_move('pre_grasp')  # Retreat above device holder
     robot.joint_move('flash')  # Get ready to take picture
 

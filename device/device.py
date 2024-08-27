@@ -3,18 +3,19 @@ import os
 from time import sleep
 
 # Dict with coordinates of camera button to take picture
-camera_button_coords = {'samsung_a34': {'x': 365, 'y': 1358},
-                        'samsung_a04e': {'x': 365, 'y': 1358},
-                        'moto_g32': {'x': 540, 'y': 2090},
-                        'virutal_device': {'x': 365, 'y': 1358}}
+models_specification = {'samsung_a34': {'x': 365, 'y': 1358, 'width': 78.1},
+                        'samsung_a04e': {'x': 365, 'y': 1358, 'width': 75.9},
+                        'moto_g32': {'x': 540, 'y': 2090, 'width': 73.84},
+                        'virutal_device': {'x': 365, 'y': 1358, 'width': 78.1}}
 
 
 class Device:
     def __init__(self, ip_port: str, model) -> None:
         self.__ip_port = ip_port
         self.model = model
-        self.__camera__pos_dict = camera_button_coords[self.model] if self.__is_model_camera_button_pos_mapped() else {}
+        self.__camera__pos_dict = models_specification[self.model] if self.__is_model_camera_button_pos_mapped() else {}
         self.__connected = False
+        self.width = models_specification[self.model]['width'] if self.__is_model_camera_button_pos_mapped() else 0
 
     @staticmethod
     def __start_adb() -> None:
@@ -28,7 +29,7 @@ class Device:
         Check if the device's button camera is in the 'camera_button_dict'.
         :return: bool
         """
-        return True if self.model in camera_button_coords else False
+        return True if self.model in models_specification else False
 
     def connect(self) -> None:
         """
