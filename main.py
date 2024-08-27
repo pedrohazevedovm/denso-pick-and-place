@@ -6,8 +6,8 @@ from time import sleep
 if __name__ == '__main__':
     tag = 'bla'
 
-    robot = ManipulatorRobot(tag)  # , 1)
-    device = Device('192.168.158.230:38827', 'moto_g32')
+    robot = ManipulatorRobot(tag)#, 1)
+    device = Device('192.168.155.2:40605', 'moto_g32')
     device.connect()
 
     # Start pick and place
